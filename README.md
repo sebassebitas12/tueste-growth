@@ -6,6 +6,7 @@ Prototipo local full stack para recorrer el programa de referidos del caso Tuest
 
 - Node.js **24.13.0 o superior** y npm.
 - No hace falta instalar SQLite como servicio. El servidor utiliza `node:sqlite` de Node y crea el archivo local al preparar los datos.
+- Node 24.13 muestra una advertencia de que `node:sqlite` sigue en fase experimental; la persistencia y los recorridos de este prototipo sí se verificaron en esa versión.
 - No se requieren cuentas, claves API ni servicios externos.
 - `.env.example` documenta las opciones locales (`PORT`, `HOST` y `DB_PATH`). Si ocupás cambiarlas, copiá ese archivo a `.env`; por defecto no necesitás crear uno.
 
