@@ -1,0 +1,12 @@
+node_modules/
+.npm-cache/
+dist/
+.env
+.env.*
+!.env.example
+data/*.sqlite
+data/*.sqlite-*
+*.log
+npm-debug.log*
+.DS_Store
+docs/fuentes/Sesión 2.zip

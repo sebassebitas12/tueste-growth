@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tueste · Ficha Growth</title>
+    <style>
+      @page {
+        size: letter;
+        margin: 0.46in;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #1a1917;
+        color: #f5f0e7;
+        font:
+          10px/1.43 "DM Sans",
+          Arial,
+          sans-serif;
+      }
+      .sheet {
+        max-width: 8.5in;
+        min-height: 10in;
+        margin: 0 auto;
+        padding: 24px 28px;
+        background: #1a1917;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #484238;
+        padding-bottom: 9px;
+        margin-bottom: 11px;
+      }
+      .brand {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: -0.6px;
+      }
+      .brand b {
+        color: #d6b67b;
+      }
+      .tag {
+        font-size: 8px;
+        letter-spacing: 1.1px;
+        color: #d6b67b;
+        font-weight: bold;
+      }
+      .dek {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 18px;
+      }
+      .dek h1 {
+        font:
+          600 27px/1.05 Georgia,
+          serif;
+        letter-spacing: -1px;
+        margin: 0 0 5px;
+      }
+      .dek p {
+        color: #c0b7a9;
+        margin: 0 0 9px;
+        font-size: 10px;
+      }
+      .metric {
+        flex: 0 0 134px;
+        padding: 10px;
+        background: #25231f;
+        border-radius: 10px;
+      }
+      .metric strong {
+        font: 600 21px Georgia;
+        color: #d6b67b;
+      }
+      .metric small {
+        display: block;
+        color: #c0b7a9;
+        font-size: 8px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 19px;
+        margin-top: 10px;
+      }
+      .section {
+        border-top: 1px solid #484238;
+        padding-top: 7px;
+        break-inside: avoid;
+      }
+      .section h2 {
+        font: 600 13px Georgia;
+        margin: 0 0 5px;
+      }
+      .section p {
+        margin: 4px 0;
+        color: #ded7ca;
+      }
+      .section strong {
+        color: #f5f0e7;
+      }
+      .wide {
+        grid-column: 1/-1;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+        margin-top: 6px;
+      }
+      .step {
+        background: #25231f;
+        border-radius: 7px;
+        padding: 6px;
+      }
+      .step b {
+        color: #d6b67b;
+        font-size: 12px;
+      }
+      .step span {
+        display: block;
+        font-size: 8px;
+        color: #c0b7a9;
+      }
+      .mini {
+        font-size: 8px;
+        color: #c0b7a9 !important;
+      }
+      .table {
+        display: grid;
+        grid-template-columns: 1.1fr 0.65fr 1fr;
+        gap: 3px 10px;
+        margin-top: 5px;
+        font-size: 9px;
+      }
+      .table b {
+        color: #d6b67b;
+      }
+      .note {
+        background: #25231f;
+        border-radius: 8px;
+        padding: 9px 11px;
+      }
+      .note h2 {
+        color: #d6b67b;
+      }
+      .foot {
+        border-top: 1px solid #484238;
+        margin-top: 10px;
+        padding-top: 7px;
+        color: #aaa192;
+        font-size: 8px;
+      }
+      @media print {
+        body,
+        .sheet {
+          background: #1a1917 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .sheet {
+          min-height: auto;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="sheet">
+      <header>
+        <div class="brand"><b>◖◗</b> tueste</div>
+        <div class="tag">GROWTH · PROPUESTA ACADÉMICA · 90 DÍAS</div>
+      </header>
+      <div class="dek">
+        <div>
+          <h1>Buen café. Mejor compartido.</h1>
+          <p>
+            Convertir clientes en invitaciones y compras válidas, con beneficios
+            simples.
+          </p>
+        </div>
+        <div class="metric">
+          <strong>12% → 24%</strong
+          ><small
+            >Meta de planificación: visitas al programa / clientes
+            asignados</small
+          >
+        </div>
+      </div>
+      <div class="grid">
+        <section class="section">
+          <h2>01 · Ciclo y fuga</h2>
+          <p>
+            Correo → programa → enlace → visita de amistad → compra → crédito →
+            siguiente invitación. El café tarda 3 días en llegar; 6% publica una
+            foto, casi siempre al recibirlo. En el caso: 350/1.000 abren correo;
+            120/1.000 visitan el programa; 100 invitan; 300 invitaciones
+            producen 150 visitas y 60 compras.
+          </p>
+          <p>
+            <strong>Fuga principal:</strong> solo 12% de los clientes iniciales
+            llega al programa. K derivado = 60/1.000 = 0,06 compra referida por
+            cliente inicial.
+          </p>
+        </section>
+        <section class="section">
+          <h2>02 · Medición semanal</h2>
+          <p>
+            <strong>Métrica:</strong> clientes que visitan el programa /
+            clientes asignados. Informar numerador, denominador y grupo.
+          </p>
+          <p>
+            <strong>Contramétrica:</strong> bajas de correo / asignados.
+            Complementaria: compras referidas confirmadas por cada 100
+            asignados.
+          </p>
+          <p>
+            Si el resto de tasas se mantiene, duplicar visitas proyectaría 6 →
+            12 compras referidas por 100; es condicional, no un resultado.
+          </p>
+        </section>
+        <section class="section">
+          <h2>03 · Canales propuestos</h2>
+          <div class="table">
+            <b>Canal</b><b>Decisión</b><b>Señal</b><span>Meta</span
+            ><span>$4.000/mes</span><span>CAC y contribución</span
+            ><span>Referidos</span><span>Probar</span
+            ><span>Visitas y compras</span><span>Contenido</span
+            ><span>Largo plazo</span><span>Visita atribuida</span
+            ><span>Otros pagos</span><span>Esperar</span
+            ><span>Reabrir con economía</span>
+          </div>
+          <p class="mini">
+            CAC actual del caso: ($4.000 + $1.000 agencia) / 100 = $50. Tope
+            propuesto de recompensas: $25; no asegura rentabilidad.
+          </p>
+        </section>
+        <section class="section">
+          <h2>04 · Experimento</h2>
+          <p>
+            Asignación aleatoria: correo al día 1 vs día 6 después de compra.
+            Mensaje, pantalla y beneficio iguales. Ventana: 21 días desde compra
+            inicial.
+          </p>
+          <p>
+            <strong>Decisión:</strong> comparar visitas al programa y bajas
+            entre grupos simultáneos. Si visitas no suben o bajas empeoran, no
+            ampliar; revisar momento y mensaje.
+          </p>
+          <p class="mini">
+            Día 6 es hipótesis, no prueba de que probaron el café. Reportar
+            muestra y limitaciones.
+          </p>
+        </section>
+        <section class="section wide">
+          <h2>05 · Beneficios y economía</h2>
+          <p>
+            Amistad: $8 de descuento. Quien invita: $8 de crédito tras compra
+            confirmada. El prototipo permite canjear hasta $8 en una compra de
+            dos bolsas; no combina ambos beneficios. Tercer referido confirmado:
+            accesorio único, costo completo
+            <strong>supuesto de $24 pendiente de cotización</strong>.
+            Presupuesto acumulado con canje total: 1=$16 · 2=$32 · 3=$72 · 4=$88
+            · 6=$120. Pedido estándar: contribución $15,89; con descuento $8,25.
+            Al reservar además $8 de crédito y $8 proporcional supuesto del
+            accesorio, saldo conservador −$7,75 por referido al completar tres.
+            No es caja inmediata. LTV de referidos desconocido.
+          </p>
+        </section>
+        <section class="section wide note">
+          <h2>06 · Error concreto de IA</h2>
+          <p>
+            Una recomendación inicial supuso 30% de adopción del pack de tres a
+            $48. Esa adopción no estaba observada. Se corrigió como hipótesis,
+            no como resultado.
+          </p>
+        </section>
+      </div>
+      <div class="foot">
+        Fuentes: contexto documentado del caso Tueste, basado en Partes 1 y 2.
+        Tasas del caso distinguidas de metas e hipótesis. Actividad, pedidos y
+        nombres del prototipo son simulados; no son evidencia comercial.
+      </div>
+    </article>
+  </body>
+</html>
