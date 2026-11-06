@@ -15,12 +15,12 @@
     "install:all": "npm install",
     "db:prepare": "npm run db:prepare --workspace @tueste/backend",
     "db:reset": "npm run db:reset --workspace @tueste/backend",
-    "dev": "concurrently -k -n API,WEB -c yellow,cyan \"npm run dev --workspace @tueste/backend\" \"npm run dev --workspace @tueste/frontend\"",
-    "start": "concurrently -k -n API,WEB -c yellow,cyan \"npm run start --workspace @tueste/backend\" \"npm run start --workspace @tueste/frontend\"",
+    "dev": "npm run build && concurrently -k -n API,WEB -c yellow,cyan \"npm run dev --workspace @tueste/backend\" \"npm run preview --workspace @tueste/frontend\"",
+    "start": "npm run build && concurrently -k -n API,WEB -c yellow,cyan \"npm run start --workspace @tueste/backend\" \"npm run preview --workspace @tueste/frontend\"",
     "build": "npm run build --workspace @tueste/frontend",
     "lint": "eslint frontend backend",
-    "test:integration": "npm run test:integration --workspace @tueste/backend",
-    "check": "npm run lint && npm run build && npm run test:integration",
+    "test:integration": "npm run build && npm run test:integration --workspace @tueste/backend",
+    "check": "npm run lint && npm run build && npm run test:integration --workspace @tueste/backend",
     "format": "prettier --write \"frontend/src/**/*.{js,jsx,css}\" \"backend/src/**/*.js\" \"backend/tests/**/*.js\" \"{frontend,backend}/*.json\" \"*.{js,json,md}\" \"docs/*.{md,html}\""
   },
   "devDependencies": {

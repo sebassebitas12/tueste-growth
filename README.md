@@ -16,13 +16,13 @@ npm run db:prepare
 npm run dev
 ```
 
-Abrí `http://localhost:5173`. Vite sirve React y reenvía `/api` a Express en `http://localhost:3001`. Para compilar, ejecutar lint e integración:
+El comando compila el frontend y levanta la API y la versión local compilada en `http://localhost:5173`; `/api` se reenvía a Express en `http://localhost:3001`. Para compilar, ejecutar lint e integración:
 
 ```bash
 npm run check
 ```
 
-También podés ejecutar cada comprobación por separado con `npm run lint`, `npm run build` y `npm run test:integration`. `npm start` inicia API e interfaz local. Los scripts de instalación, preparación, desarrollo y arranque se ejecutan desde la raíz del repositorio.
+También podés ejecutar cada comprobación por separado con `npm run lint`, `npm run build` y `npm run test:integration` (que compila antes de probar). `npm start` también compila y levanta API e interfaz local. Los scripts de instalación, preparación, desarrollo y arranque se ejecutan desde la raíz del repositorio.
 
 ## Estructura
 
