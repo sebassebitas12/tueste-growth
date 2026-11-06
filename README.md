@@ -1,18 +1,14 @@
 # Tueste — prototipo académico
 
-Prototipo local full stack para recorrer el programa de referidos del caso Tueste. Las compras son demostraciones: no se cobran, no se despachan productos y no se envían mensajes.
+Prototipo local full stack para recorrer el programa de referidos del caso Tueste. La API y SQLite son la fuente de verdad de pedidos, referidos, créditos, recompensas y métricas. Las compras, pagos, envíos y notificaciones son simulados: no se cobran compras ni se envían mensajes.
 
 ## Requisitos
 
 - Node.js **24.13.0 o superior** y npm.
-- No hace falta instalar SQLite como servicio. El servidor utiliza `node:sqlite` de Node y crea el archivo local al preparar los datos.
-- Node 24.13 muestra una advertencia de que `node:sqlite` sigue en fase experimental; la persistencia y los recorridos de este prototipo sí se verificaron en esa versión.
+- La API usa el módulo integrado `node:sqlite` de Node 24 (`DatabaseSync`); no hace falta instalar SQLite como servicio. Node 24 puede mostrar la advertencia de experimental.
 - No se requieren cuentas, claves API ni servicios externos.
-- `.env.example` documenta las opciones locales (`PORT`, `HOST` y `DB_PATH`). Si ocupás cambiarlas, copiá ese archivo a `.env`; por defecto no necesitás crear uno.
 
-## Instalación y arranque
-
-En la raíz del proyecto:
+## Instalar y ejecutar desde la raíz
 
 ```bash
 npm install
@@ -20,65 +16,88 @@ npm run db:prepare
 npm run dev
 ```
 
-Abrí `http://localhost:5173`. La API corre en `http://localhost:3001`; Vite redirige `/api` durante el desarrollo. Para compilar y arrancar en modo de revisión local:
+Abrí `http://localhost:5173`. Vite sirve React y reenvía `/api` a Express en `http://localhost:3001`. Para compilar, ejecutar lint e integración:
 
 ```bash
 npm run check
-npm run test:smoke
-npm start
 ```
 
-`npm run check` ejecuta ESLint y la compilación Vite. `npm run test:smoke` verifica API, proxy Vite, validación de negocio e idempotencia con una base temporal. El servidor usa el host `0.0.0.0` para permitir la prueba dentro de la red local.
+También podés ejecutar cada comprobación por separado con `npm run lint`, `npm run build` y `npm run test:integration`. `npm start` inicia API e interfaz local. Los scripts de instalación, preparación, desarrollo y arranque se ejecutan desde la raíz del repositorio.
 
-## Acceso de demostración
+## Estructura
 
-La barra superior **Acceso de demostración** permite alternar:
+```text
+frontend/              React, Vite, páginas y componentes
+  src/app/             Rutas y composición de la aplicación
+  src/pages/           Una vista por ruta
+  src/components/      Navegación, visuales y estados reutilizables
+  src/context/         Selección de usuario demo y carrito local
+  src/hooks/           Lecturas de cuenta
+  src/services/        Cliente HTTP
+  src/utils/           Formato de importes y recursos
+backend/               Express, reglas del negocio y SQLite
+  src/routes/          Rutas HTTP
+  src/controllers/     Adaptadores HTTP
+  src/services/        Reglas y transacciones de pedidos
+  src/repositories/    Consultas y escrituras SQLite
+  src/db/              Conexión, esquema y seed reproducible
+  tests/               Prueba de integración Vite → API → SQLite
+docs/                  Contexto, fuentes, diseño y entregables académicos
+```
 
-- **Ana · cliente**: cuenta con dos amistades de ejemplo que ya compraron, $16 de crédito y progreso 2/3.
-- **Diego · panel**: tablero con los datos del embudo del caso y métricas locales de la demo.
+El lockfile único está en la raíz. La base de ejecución se crea en `backend/data/tueste.sqlite` y está excluida de Git. El esquema está en `backend/src/db/schema.sql`; el seed agrega las cuentas demo, productos, métricas y actividad inicial sin duplicarlas.
 
-No hay contraseñas ni autenticación real. Sofía y Luis son nombres de muestra.
+## Acceso demo
+
+La barra **Acceso de demostración** aparece en la interfaz e identifica estas vistas como demostración:
+
+- **Ana · cliente:** dos amistades confirmadas, $16 de crédito y progreso 2/3.
+- **Diego · panel:** embudo del caso y actividad local demo.
+
+No hay autenticación real. Sofía y Luis son nombres de muestra; los datos se guardan localmente en SQLite.
 
 ## Recorrido sugerido (3 minutos)
 
-1. En `/cuenta/referidos`, copiá el enlace `ana-demo` o abrí `/invitacion/ana-demo`.
-2. La amistad ve aplicado el descuento; agregá las dos bolsas y abrí el carrito ($34 − $8 = $26, envío incluido).
-3. En checkout, usá un nombre y correo ficticios. Se crea un pedido pendiente en SQLite.
-4. En la confirmación, elegí **Simular compra confirmada**. El pedido se confirma y el crédito de Ana sube $8; con la tercera compra se crea un único premio.
-5. Alterná a Diego en la barra de demo o abrí `/panel-diego` para revisar el embudo y supuestos.
+1. Abrí `/cuenta/referidos` y copiá el enlace `ana-demo`, o entrá directo a `/invitacion/ana-demo`.
+2. Revisá el beneficio de $8. Agregá dos bolsas y comprobá en el carrito el cálculo $34 − $8 = $26, con envío incluido.
+3. En checkout, usá nombre y correo ficticios. El backend crea un pedido pendiente en SQLite.
+4. En la confirmación, elegí **Simular compra confirmada**. Ana pasa de 2/3 a 3/3 y de $16 a $24 de crédito; se crea un premio único.
+5. Alterná a Diego o abrí `/panel-diego` para ver embudo, métricas locales y ficha de Growth.
 
-La vista previa de WhatsApp muestra el texto dentro de la aplicación local y permite copiarlo; no abre WhatsApp ni envía mensajes.
+La vista previa de WhatsApp queda en la página y permite copiar el texto. No abre la app ni envía mensajes.
 
 ## Probar desde un celular en la misma red
 
-1. Conectá computadora y celular a la misma red Wi-Fi.
-2. Averiguá la IP local de la computadora (por ejemplo, `ipconfig` en Windows).
-3. Ejecutá `npm run dev` y desde el teléfono abrí `http://IP-DE-LA-COMPUTADORA:5173`.
-4. Si el firewall de la computadora bloquea el puerto 5173, permití ese acceso en la red privada. La API y la interfaz usan el mismo equipo.
+1. Conectá la computadora y el celular a la misma red Wi‑Fi.
+2. Averiguá la IP local de la computadora (`ipconfig` en Windows).
+3. Ejecutá `npm run dev`; desde el celular abrí `http://IP-DE-LA-COMPUTADORA:5173`.
+4. Si el firewall bloquea el puerto 5173, permití ese acceso en la red privada. API e interfaz usan la misma computadora.
 
-## Base de datos y reinicio
-
-SQLite se crea como `data/tueste.sqlite` (ignorado por Git). El esquema está en `server/src/schema.sql`. El seed es reproducible e inserta usuarios de demo y actividad base sin duplicarlos.
+## Datos locales y reinicio
 
 ```bash
-npm run db:prepare  # prepara esquema y agrega datos demo que falten
-npm run db:reset    # reinicia por completo y reconstruye la demo
+npm run db:prepare  # conserva datos y agrega semillas faltantes
+npm run db:reset    # reconstruye la base demo desde cero
 ```
 
-Al resetear se borran todos los pedidos locales que se hayan creado durante la práctica. Detené primero el servidor para evitar conexiones abiertas.
+El reset borra pedidos locales de práctica. Detené la API antes de reiniciar. `.env.example` muestra `PORT`, `HOST` y `DB_PATH`; si necesitás cambiar valores, copiá el archivo como `.env` en la raíz. Por defecto no hace falta crear `.env`.
 
-## Rutas principales
+## Rutas
 
-`/` inicio · `/catalogo` catálogo · `/catalogo/duo` producto · `/invitacion/ana-demo` invitación · `/carrito` carrito · `/checkout` checkout · `/confirmacion/:id` confirmación · `/cuenta` cuenta · `/cuenta/pedidos` pedidos · `/cuenta/referidos` programa · `/cuenta/recompensas` premios · `/cuenta/actividad` actividad · `/condiciones` reglas · `/panel-diego` panel.
+`/` inicio · `/catalogo` catálogo · `/catalogo/duo` producto · `/invitacion/ana-demo` invitación · `/carrito` carrito · `/checkout` checkout · `/confirmacion/:id` confirmación · `/cuenta` cuenta · `/cuenta/pedidos` pedidos · `/cuenta/referidos` referidos · `/cuenta/recompensas` recompensas · `/cuenta/actividad` actividad · `/condiciones` condiciones · `/panel-diego` panel.
 
-## Reglas y trazabilidad
+## Reglas, hipótesis y límites
 
-- Del caso: dos bolsas de 340 g cuestan $34; pack de tres $48; suscripción mensual $30,60; beneficio de piloto de $8 para cada lado.
-- Decisión del equipo para el prototipo: descuento de $8 limitado al producto de dos bolsas en la primera compra elegible; $8 de crédito para quien invita tras confirmarse. Se impide el autorreferido y el segundo referido del mismo correo.
-- Canje en este prototipo: se pueden reservar hasta $8 de crédito en un pedido de dos bolsas; no se combina con el descuento de invitación. La reserva se confirma con el pedido y se revierte al cancelarlo o devolverlo. Es una regla de demostración, no una política comercial; el tratamiento de crédito ya usado ante una devolución queda pendiente. Si la devolución haría negativo el saldo por crédito de invitación ya gastado, la demo la bloquea y explica la decisión pendiente.
-- Propuesta: premio único de accesorio al tercer referido confirmado. Los $24 son un **costo supuesto pendiente de cotización**, no costo observado.
-- La meta 12% → 24% y el correo al día 6 son hipótesis/metas de planificación, no resultados. El embudo del panel proviene del caso; los pedidos actuales de la demo provienen de SQLite local.
-- Los importes se guardan como centavos enteros. Precios y beneficio se calculan y validan en el servidor. La llave de idempotencia evita crear el mismo pedido al reintentar.
-- Pendiente de decisión comercial: plazo de validación, elegibilidad fuera del prototipo y tratamiento de créditos canjeados ante una devolución. El pago y envío reales quedan fuera del alcance.
+- Datos del caso: dos bolsas de 340 g por $34, pack de tres por $48, suscripción mensual por $30,60 y beneficio piloto de $8 para cada lado.
+- Regla demo: amistad recibe $8 en primera compra elegible de dos bolsas; quien invita obtiene $8 de crédito cuando la compra se confirma. Se bloquean autorreferidos, correos duplicados y compras no elegibles. Se pueden canjear hasta $8 en un pedido de dos bolsas, sin combinar con descuento de invitación.
+- Cancelar o devolver revierte los créditos canjeados. La devolución que dejaría saldo negativo por un crédito ya gastado se bloquea; la política comercial real sigue pendiente.
+- Al confirmar tres amistades compradoras se entrega un accesorio único. Su costo completo de $24 es un **supuesto pendiente de cotización**, no un costo observado.
+- La meta 12% → 24% y el correo del día 6 son hipótesis/metas, no resultados. El embudo histórico viene del caso y la actividad actual de la base local.
+- Los importes se calculan en centavos enteros en el backend; las restricciones SQLite e idempotencia evitan pedidos y premios duplicados al repetir solicitudes.
+- El plazo de validación y la elegibilidad comercial fuera del prototipo requieren decisión. Pagos, envíos y notificaciones reales quedan fuera del alcance.
 
 Más trazabilidad: [`docs/CONTEXTO_TUESTE.md`](docs/CONTEXTO_TUESTE.md), [`docs/FICHA_GROWTH.md`](docs/FICHA_GROWTH.md) y [`docs/GUION_DEMO.md`](docs/GUION_DEMO.md).
+
+## Estado de validación
+
+`npm run check` verifica ESLint, build de Vite e integración real con base temporal. La revisión visual por capturas en escritorio y móvil debe hacerse en el navegador local; el resultado de compilación por sí solo no valida la fidelidad visual.

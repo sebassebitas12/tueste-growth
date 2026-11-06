@@ -4,8 +4,10 @@ import { randomUUID } from "node:crypto";
 import { existsSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 
-const root = process.cwd();
-const dbPath = resolve(`data/smoke-${randomUUID()}.sqlite`);
+const backendRoot = resolve(import.meta.dirname, "..");
+const frontendRoot = resolve(backendRoot, "../frontend");
+const root = resolve(backendRoot, "..");
+const dbPath = resolve(backendRoot, `data/integration-${randomUUID()}.sqlite`);
 const apiPort = 32100 + Math.floor(Math.random() * 500);
 const webPort = 32600 + Math.floor(Math.random() * 300);
 const apiOrigin = `http://127.0.0.1:${apiPort}`;
@@ -58,8 +60,8 @@ async function createOrder(
   });
 }
 function startApi() {
-  api = spawn(process.execPath, ["server/src/index.js"], {
-    cwd: root,
+  api = spawn(process.execPath, [resolve(backendRoot, "src/index.js")], {
+    cwd: backendRoot,
     env,
     stdio: ["ignore", "ignore", "pipe"],
   });
@@ -70,7 +72,7 @@ function startWeb() {
   web = spawn(
     process.execPath,
     [
-      "node_modules/vite/bin/vite.js",
+      resolve(root, "node_modules/vite/bin/vite.js"),
       "--host",
       "127.0.0.1",
       "--port",
@@ -78,14 +80,14 @@ function startWeb() {
       "--configLoader",
       "runner",
     ],
-    { cwd: root, env, stdio: "ignore" },
+    { cwd: frontendRoot, env, stdio: "ignore" },
   );
 }
 try {
   const seeded = spawnSync(
     process.execPath,
-    ["server/src/seed.js", "--reset"],
-    { cwd: root, env, encoding: "utf8" },
+    [resolve(backendRoot, "src/db/seed.js"), "--reset"],
+    { cwd: backendRoot, env, encoding: "utf8" },
   );
   assert.equal(seeded.status, 0, seeded.stderr || "Falló el seed de prueba.");
   startApi();

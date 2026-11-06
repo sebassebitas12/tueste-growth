@@ -7,40 +7,29 @@
   "engines": {
     "node": ">=24.13.0"
   },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
     "install:all": "npm install",
-    "db:prepare": "node server/src/seed.js",
-    "db:reset": "node server/src/seed.js --reset",
-    "dev": "concurrently -k -n API,WEB -c yellow,cyan \"npm:dev:api\" \"npm:dev:web\"",
-    "dev:api": "node --watch server/src/index.js",
-    "dev:web": "vite --host 0.0.0.0 --configLoader runner",
-    "start": "concurrently -k -n API,WEB -c yellow,cyan \"npm:start:api\" \"npm:start:web\"",
-    "start:api": "node server/src/index.js",
-    "start:web": "vite --host 0.0.0.0 --configLoader runner",
-    "build": "vite build --configLoader runner",
-    "lint": "eslint .",
-    "check": "npm run lint && npm run build",
-    "test:smoke": "node server/src/smoke.js",
-    "format": "prettier --write \"src/**/*.{js,jsx,css}\" \"server/src/**/*.js\" \"*.{js,json,html}\" \"docs/*.{md,html}\" \"public/*.html\""
-  },
-  "dependencies": {
-    "@fontsource/bitter": "^5.2.6",
-    "@fontsource/dm-sans": "^5.2.6",
-    "@vitejs/plugin-react": "^5.0.4",
-    "concurrently": "^9.2.1",
-    "express": "^5.1.0",
-    "lucide-react": "^0.468.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.5",
-    "vite": "^7.2.2"
+    "db:prepare": "npm run db:prepare --workspace @tueste/backend",
+    "db:reset": "npm run db:reset --workspace @tueste/backend",
+    "dev": "concurrently -k -n API,WEB -c yellow,cyan \"npm run dev --workspace @tueste/backend\" \"npm run dev --workspace @tueste/frontend\"",
+    "start": "concurrently -k -n API,WEB -c yellow,cyan \"npm run start --workspace @tueste/backend\" \"npm run start --workspace @tueste/frontend\"",
+    "build": "npm run build --workspace @tueste/frontend",
+    "lint": "eslint frontend backend",
+    "test:integration": "npm run test:integration --workspace @tueste/backend",
+    "check": "npm run lint && npm run build && npm run test:integration",
+    "format": "prettier --write \"frontend/src/**/*.{js,jsx,css}\" \"backend/src/**/*.js\" \"backend/tests/**/*.js\" \"{frontend,backend}/*.json\" \"*.{js,json,md}\" \"docs/*.{md,html}\""
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
-    "globals": "^16.5.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.5.0",
     "prettier": "^3.6.2"
   }
 }

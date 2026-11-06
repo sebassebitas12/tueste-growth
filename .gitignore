@@ -1,11 +1,14 @@
 node_modules/
 .npm-cache/
 dist/
+frontend/dist/
 .env
 .env.*
 !.env.example
 data/*.sqlite
 data/*.sqlite-*
+backend/data/*.sqlite
+backend/data/*.sqlite-*
 *.log
 npm-debug.log*
 .DS_Store

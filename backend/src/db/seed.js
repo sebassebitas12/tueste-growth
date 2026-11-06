@@ -1,4 +1,4 @@
-import { db, transaction } from "./db.js";
+import { db, transaction } from "./connection.js";
 
 if (process.argv.includes("--reset")) {
   db.exec(

@@ -1,0 +1,16 @@
+{
+  "name": "@tueste/backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:prepare": "node src/db/seed.js",
+    "db:reset": "node src/db/seed.js --reset",
+    "test:integration": "node tests/integration.test.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
