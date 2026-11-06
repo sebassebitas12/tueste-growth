@@ -15,6 +15,7 @@ const webOrigin = `http://127.0.0.1:${webPort}`;
 const env = {
   ...process.env,
   DB_PATH: dbPath,
+  EMAIL_MODE: "preview",
   PORT: String(apiPort),
   VITE_API_PROXY: apiOrigin,
 };
@@ -97,6 +98,20 @@ try {
   assert.deepEqual(await webHealth.json(), { ok: true, storage: "sqlite" });
   const shell = await (await fetch(`${webOrigin}/invitacion/ana-demo`)).text();
   assert.match(shell, /Tueste/);
+  const entryModule = await fetch(`${webOrigin}/src/main.jsx`);
+  assert.equal(entryModule.status, 200);
+  assert.match(await entryModule.text(), /react-dom_client/);
+  for (const modulePath of [
+    "/src/app/App.jsx",
+    "/src/pages/Home.jsx",
+    "/src/pages/Invitation.jsx",
+    "/src/components/ProductVisuals.jsx",
+    "/src/utils/assets.js",
+    "/src/styles.css",
+  ]) {
+    const moduleResponse = await fetch(`${webOrigin}${modulePath}`);
+    assert.equal(moduleResponse.status, 200, `Vite no pudo servir ${modulePath}`);
+  }
   const product = await apiJson("/api/products");
   assert.equal(product.data.find((p) => p.id === "duo").price_cents, 3400);
   const metrics = await apiJson("/api/admin/metrics");
